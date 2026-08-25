@@ -1,0 +1,25 @@
+{
+  "name": "chess-platform-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Real-Time Multiplayer Online Chess Platform with Scalable Cloud-Native DevOps Infrastructure",
+  "workspaces": [
+    "frontend/chess-client",
+    "backend"
+  ],
+  "scripts": {
+    "build": "npm run build --workspace=backend && npm run build --workspace=frontend/chess-client",
+    "dev:backend": "npm run start:dev --workspace=backend",
+    "dev:frontend": "npm run dev --workspace=frontend/chess-client",
+    "dev": "concurrently -n \"BACKEND,FRONTEND\" -c \"blue,green\" \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "test": "npm run test --workspace=backend && npm run test --workspace=frontend/chess-client",
+    "lint": "npm run lint --workspace=backend && npm run lint --workspace=frontend/chess-client",
+    "loc:report": "ts-node scripts/generate-loc-report.ts"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "rimraf": "^5.0.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  }
+}

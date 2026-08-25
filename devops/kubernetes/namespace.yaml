@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: chess-production
+  labels:
+    name: chess-production
+    environment: production

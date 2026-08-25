@@ -1,0 +1,17 @@
+# Build stage
+FROM node:20-alpine AS builder
+
+WORKDIR /app
+COPY package*.json ./
+COPY frontend/chess-client/package*.json ./frontend/chess-client/
+RUN npm ci --workspace=frontend/chess-client
+
+COPY frontend/chess-client ./frontend/chess-client
+RUN npm run build --workspace=frontend/chess-client
+
+# Production Nginx stage
+FROM nginx:alpine AS runner
+
+COPY --from=builder /app/frontend/chess-client/dist /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
